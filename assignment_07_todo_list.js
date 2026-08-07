@@ -78,7 +78,74 @@
 //
 //
 // =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
+const readline = require('readline-sync');
+
+function addTask(tasks) {
+    const taskDesc = readline.question('Enter task: ');
+    tasks.push(taskDesc);
+    console.log(`Task added: "${taskDesc}"`);
+}
+
+function viewTasks(tasks) {
+    if (tasks.length === 0) {
+        console.log('Your tasks list is empty.');
+    } else {
+        console.log('Your Tasks:');
+        for (let i = 0; i < tasks.length; i++) {
+            console.log(`${i + 1}. ${tasks[i]}`);
+        }
+    }
+}
+
+function deleteTask(tasks) {
+    if (tasks.length === 0) {
+        console.log('Your tasks list is empty. Nothing to delete.');
+        return;
+    }
+    
+    viewTasks(tasks);
+    const taskNum = readline.questionInt('Enter task number to delete: ');
+    const index = taskNum - 1;
+    
+    if (index >= 0 && index < tasks.length) {
+        const removed = tasks.splice(index, 1);
+        console.log(`Task "${removed[0]}" has been removed.`);
+    } else {
+        console.log('Error: Invalid task number.');
+    }
+}
+
+function main() {
+    let tasks = [];
+    let running = true;
+    
+    while (running) {
+        console.log('\n========================');
+        console.log('   TO-DO LIST MENU');
+        console.log('========================');
+        console.log('1. Add task');
+        console.log('2. View tasks');
+        console.log('3. Delete task');
+        console.log('4. Quit');
+        
+        const choice = readline.questionInt('Enter your choice (1-4): ');
+        
+        if (choice === 1) {
+            addTask(tasks);
+        } else if (choice === 2) {
+            viewTasks(tasks);
+        } else if (choice === 3) {
+            deleteTask(tasks);
+        } else if (choice === 4) {
+            console.log('Goodbye!');
+            running = false;
+        } else {
+            console.log('Error: Invalid choice. Please enter a number between 1 and 4.');
+        }
+    }
+}
+
+main();
 // =============================================================================
 
 
